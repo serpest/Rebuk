@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootPane" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.serpest.rebuk.controller.LibraryController">
+	<children>
+		<ToolBar>
+			<items>
+				<Button onAction="#handleAddBookButtonAction" text="Add book" />
+				<Separator />
+				<Button onAction="#handleRandomBookOverviewButtonAction"
+					text="Random book overview" />
+			</items>
+		</ToolBar>
+		<TableView fx:id="booksTableView" VBox.vgrow="ALWAYS">
+			<columns>
+				<TableColumn fx:id="filenameColumn" prefWidth="150.0"
+					text="Filename" />
+				<TableColumn fx:id="titleColumn" prefWidth="150.0"
+					text="Title" />
+				<TableColumn fx:id="authorsColumn" prefWidth="150.0"
+					text="Authors" />
+				<TableColumn fx:id="statusColumn" prefWidth="150.0"
+					text="Status" />
+				<TableColumn fx:id="bookmarksColumn" prefWidth="150.0"
+					text="Bookmarks" />
+				<TableColumn fx:id="actionsColumn" prefWidth="150.0"
+					sortable="false" text="Actions" />
+			</columns>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+	</children>
+</VBox>

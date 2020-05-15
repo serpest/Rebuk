@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.serpest.rebuk.controller.BookOverviewController">
+	<children>
+		<ToolBar>
+			<items>
+				<Button onAction="#handleBackButtonAction" text="Back" />
+				<Button onAction="#handleSaveButtonAction" text="Save" />
+			</items>
+		</ToolBar>
+		<GridPane hgap="10.0" vgap="10.0">
+			<children>
+				<Text text="Filename:" />
+				<Text text="Title:" GridPane.rowIndex="1" />
+				<Text text="Authors:" GridPane.rowIndex="2" />
+				<Text text="Status:" GridPane.rowIndex="3" />
+				<TextField fx:id="filenameField" GridPane.columnIndex="1" />
+				<TextField fx:id="titleField" GridPane.columnIndex="1"
+					GridPane.rowIndex="1" />
+				<TextField fx:id="authorsField" GridPane.columnIndex="1"
+					GridPane.rowIndex="2" />
+				<ChoiceBox fx:id="statusChoiceBox"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" />
+			</children>
+			<columnConstraints>
+				<ColumnConstraints />
+				<ColumnConstraints hgrow="ALWAYS" />
+			</columnConstraints>
+		</GridPane>
+		<TitledPane text="Notes">
+			<content>
+				<TextArea fx:id="notesTextArea" />
+			</content>
+		</TitledPane>
+		<TitledPane text="Bookmarks">
+			<content>
+				<VBox>
+					<children>
+						<TableView fx:id="bookmarksTableView">
+							<columns>
+								<TableColumn fx:id="nameColumn" prefWidth="100.0"
+									text="Name" />
+								<TableColumn fx:id="pagesColumn" prefWidth="100.0"
+									text="Pages" />
+								<TableColumn fx:id="dateTimeColumn"
+									prefWidth="100.0" text="Date &amp; Time" />
+								<TableColumn fx:id="actionsColumn" prefWidth="100.0"
+									text="Actions" />
+							</columns>
+							<columnResizePolicy>
+								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+							</columnResizePolicy>
+						</TableView>
+						<Button onAction="#handleAddBookmarkButtonAction"
+							text="Add bookmark" />
+					</children>
+				</VBox>
+			</content>
+		</TitledPane>
+	</children>
+</VBox>
