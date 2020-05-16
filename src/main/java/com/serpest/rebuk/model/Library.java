@@ -32,7 +32,7 @@ public class Library implements Serializable, Iterable<Book> {
 		books.remove(index);
 	}
 
-	public int size() {
+	public int getBooksNumber() {
 		return books.size();
 	}
 

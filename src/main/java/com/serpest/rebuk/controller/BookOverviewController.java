@@ -2,51 +2,30 @@ package com.serpest.rebuk.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import com.serpest.rebuk.controller.cells.DeleteButtonTableCell;
 import com.serpest.rebuk.model.Book;
 import com.serpest.rebuk.model.Book.Status;
 import com.serpest.rebuk.model.Bookmark;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 import javafx.util.Pair;
 
 public class BookOverviewController {
-
-	private class ActionsCell extends TableCell<Bookmark, Button[]> {
-
-		private Button deleteButton;
-
-		private ActionsCell() {
-			deleteButton = new Button("Delete");
-			deleteButton.setOnAction((event) -> handleDeleteBookmarkAction(event));
-		}
-
-		@Override
-		protected void updateItem(Button[] buttons, boolean empty) {
-			super.updateItem(buttons, empty);
-			if (empty)
-				setGraphic(null);
-			else
-				setGraphic(new HBox(deleteButton));
-		}
-
-	}
 
 	private Book book;
 
@@ -62,6 +41,10 @@ public class BookOverviewController {
 	@FXML
 	private TextField authorsField;
 	@FXML
+	private ChoiceBox<Book.Status> statusChoiceBox;
+	@FXML
+	private TextArea notesTextArea;
+	@FXML
 	private TableView<Bookmark> bookmarksTableView;
 	@FXML
 	private TableColumn<Bookmark, String> nameColumn;
@@ -70,11 +53,7 @@ public class BookOverviewController {
 	@FXML
 	private TableColumn<Bookmark, LocalDateTime> dateTimeColumn;
 	@FXML
-	private TableColumn<Bookmark, Button[]> actionsColumn;
-	@FXML
-	private TextArea notesTextArea;
-	@FXML
-	private ChoiceBox<Book.Status> statusChoiceBox;
+	private TableColumn<Bookmark, Void> actionsColumn;
 
 	@FXML
 	public void initialize() throws IOException {
@@ -82,16 +61,12 @@ public class BookOverviewController {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		pagesColumn.setCellValueFactory(new PropertyValueFactory<>("pages"));
 		dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-		actionsColumn.setCellFactory(new Callback<>() {
-			@Override
-			public TableCell<Bookmark, Button[]> call(TableColumn<Bookmark, Button[]> column) {
-				return new ActionsCell();
-			}
-		});
+		actionsColumn.setCellFactory(cell -> new DeleteButtonTableCell<Bookmark>((event, index) -> handleDeleteBookmarkAction(event, index)));
 	}
 
 	@FXML
 	public void handleBackButtonAction(ActionEvent event) {
+		libraryController.upgradeBooksTableView();
 		scene.setRoot(libraryRoot);
 	}
 
@@ -102,10 +77,10 @@ public class BookOverviewController {
 		book.setAuthors(authorsField.getText());
 		book.setStatus(statusChoiceBox.getValue());
 		book.setNotes(notesTextArea.getText());
-		book.setBookmarks(bookmarksTableView.getItems());
+		List<Bookmark> bookmarksWithoutListeners = new ArrayList<>(Arrays.asList(bookmarksTableView.getItems().toArray(new Bookmark[bookmarksTableView.getItems().size()])));
+		book.setBookmarks(bookmarksWithoutListeners);
 
 		libraryController.saveLibrary();
-		libraryController.upgradeBooksTableView();
 	}
 
 	@FXML
@@ -116,7 +91,6 @@ public class BookOverviewController {
 			book.addBookmark(bookmark);
 			libraryController.saveLibrary();
 			addBookmarkToTableView(bookmark);
-			libraryController.upgradeBooksTableView();
 		}
 	}
 
@@ -137,10 +111,6 @@ public class BookOverviewController {
 		upgradeBookView();
 	}
 
-	private void addBookmarkToTableView(Bookmark bookmark) {
-		bookmarksTableView.getItems().add(bookmark);
-	}
-
 	private void upgradeBookView() {
 		filenameField.setText(book.getFilename());
 		titleField.setText(book.getTitle());
@@ -155,24 +125,22 @@ public class BookOverviewController {
 		bookmarksTableView.getItems().addAll(book.getBookmarks());
 	}
 
-	public void setAddBookmarkDialog(Dialog<Pair<String, String>> addBookmarkDialog) {
-		this.addBookmarkDialog = addBookmarkDialog;
-	}
-
-	private void handleDeleteBookmarkAction(ActionEvent event) {
-		int elementIndex = getActionsCellIndex(event);
-		book.getBookmarks().remove(elementIndex);
-		libraryController.saveLibrary();
-		deleteTableViewBookmark(elementIndex);
-		libraryController.upgradeBooksTableView();
-	}
-
-	private int getActionsCellIndex(ActionEvent event) {
-		return ((ActionsCell) ((Node) event.getSource()).getParent().getParent()).getIndex();
+	private void addBookmarkToTableView(Bookmark bookmark) {
+		bookmarksTableView.getItems().add(bookmark);
 	}
 
 	private void deleteTableViewBookmark(int index) {
 		bookmarksTableView.getItems().remove(index);
+	}
+
+	public void setAddBookmarkDialog(Dialog<Pair<String, String>> addBookmarkDialog) {
+		this.addBookmarkDialog = addBookmarkDialog;
+	}
+
+	private void handleDeleteBookmarkAction(ActionEvent event, int elementIndex) {
+		book.getBookmarks().remove(elementIndex);
+		libraryController.saveLibrary();
+		deleteTableViewBookmark(elementIndex);
 	}
 
 }

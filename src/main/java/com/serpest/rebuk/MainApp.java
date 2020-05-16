@@ -55,7 +55,7 @@ public class MainApp extends Application {
 	}
 
 	private void loadAddBookmarkDialog() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddBookmarkDialog.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AddBookmarkDialogScene.fxml"));
 		addBookmarkRoot = loader.load();
 		addBookmarkController = loader.getController();
 		addBookmarkDialog = addBookmarkController.getAddBookmarkDialog();
@@ -73,7 +73,7 @@ public class MainApp extends Application {
 		bookOverviewController.setLibraryRoot(libraryRoot);
 		bookOverviewController.setLibraryController(libraryController);
 		bookOverviewController.setAddBookmarkDialog(addBookmarkDialog);
-		addBookmarkController.initAddBookmarkRoot(addBookmarkRoot);
+		addBookmarkController.setRoot(addBookmarkRoot);
 	}
 
 }

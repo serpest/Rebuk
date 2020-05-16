@@ -22,6 +22,7 @@ public class AddBookmarkController {
 	@FXML
 	public void initialize() throws IOException {
 		addBookmarkDialog = new Dialog<>();
+		addBookmarkDialog.setTitle("Add bookmark");
 		addBookmarkDialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		addBookmarkDialog.setResultConverter(dialogButton -> {
 			if (dialogButton == ButtonType.OK) {
@@ -31,9 +32,8 @@ public class AddBookmarkController {
 		});
 	}
 
-	public void initAddBookmarkRoot(Parent addBookmarkRoot) {
-		addBookmarkDialog.setTitle("Rebuk - Add bookmark");
-		addBookmarkDialog.getDialogPane().setContent(addBookmarkRoot);
+	public void setRoot(Parent root) {
+		addBookmarkDialog.getDialogPane().setContent(root);
 	}
 
 	public Dialog<Pair<String, String>> getAddBookmarkDialog() {
