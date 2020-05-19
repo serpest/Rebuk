@@ -1,21 +1,23 @@
 package com.serpest.rebuk.controller;
 
 import com.google.gson.JsonSyntaxException;
-import com.serpest.rebuk.controller.cells.OverviewDeleteButtonsTableCell;
+import com.serpest.rebuk.controller.custom.cells.OverviewDeleteButtonsTableCell;
 import com.serpest.rebuk.model.Book;
 import com.serpest.rebuk.model.Library;
+import com.serpest.rebuk.services.LibraryFileHandler;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,16 +27,14 @@ import java.util.Optional;
 
 public class LibraryController {
 
-	private static String LIBRARY_FILENAME = "data" + File.separator + "library.json";
+	private final static String LIBRARY_FILENAME = "data" + File.separator + "library.json";
+
 	private Library library;
 	private LibraryFileHandler libraryFileHandler;
 
-	private Scene scene;
+	private Stage bookOverviewStage;
 	private BookOverviewController bookOverviewController;
-	private Parent bookOverviewRoot;
 
-	@FXML
-	private VBox rootPane;
 	@FXML
 	private TableView<Book> booksTableView;
 	@FXML
@@ -50,7 +50,9 @@ public class LibraryController {
 	@FXML
 	private TableColumn<Book, Void> actionsColumn;
 
-	public LibraryController() {
+	public LibraryController(Pair<Stage, BookOverviewController> bookOverviewView) {
+		this.bookOverviewStage = bookOverviewView.getKey();
+		this.bookOverviewController = bookOverviewView.getValue();
 		libraryFileHandler = new LibraryFileHandler();
 		loadLibrary();
 	}
@@ -62,15 +64,17 @@ public class LibraryController {
 		authorsColumn.setCellValueFactory(new PropertyValueFactory<>("authors"));
 		statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 		bookmarksColumn.setCellValueFactory(new PropertyValueFactory<>("bookmarksNumber"));
-		actionsColumn.setCellFactory(cell -> new OverviewDeleteButtonsTableCell<Book>((event, index) -> handleGetOverviewBookAction(event, index), (event, index) -> handleDeleteBookAction(event, index)));
-
-		upgradeBooksTableView();
+		actionsColumn.setCellFactory(cell -> new OverviewDeleteButtonsTableCell<Book>(
+				(event, index) -> handleGetOverviewBookAction(event, index),
+				(event, index) -> handleDeleteBookAction(event, index)));
+		updateBooksTableView();
 	}
 
 	@FXML
 	public void handleAddBookButtonAction(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
-		File selectedFile = fileChooser.showOpenDialog(scene.getWindow());
+		Window window = ((Node) event.getTarget()).getScene().getWindow();
+		File selectedFile = fileChooser.showOpenDialog(window);
 		if (selectedFile != null) {
 			Book book = new Book(selectedFile.getAbsolutePath());
 			library.addBook(book);
@@ -95,7 +99,7 @@ public class LibraryController {
 
 	void saveLibrary() {
 		try {
-			new File(LIBRARY_FILENAME).getParentFile().mkdirs();
+			new File(LIBRARY_FILENAME).getParentFile().mkdirs(); // Create parent directories if they don't exist
 			libraryFileHandler.writeJsonStream(new FileOutputStream(LIBRARY_FILENAME), library);
 		} catch (IOException exc) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -106,7 +110,7 @@ public class LibraryController {
 		}
 	}
 
-	void upgradeBooksTableView() {
+	void updateBooksTableView() {
 		booksTableView.getItems().clear();
 		booksTableView.getItems().addAll(library.getBooks());
 	}
@@ -126,7 +130,9 @@ public class LibraryController {
 
 	private void openBookOverview(Book book) {
 		bookOverviewController.setBook(book);
-		scene.setRoot(bookOverviewRoot);
+		bookOverviewStage.showAndWait();
+		saveLibrary();
+		updateBooksTableView();
 	}
 
 	private void handleDeleteBookAction(ActionEvent event, int elementIndex) {
@@ -148,18 +154,6 @@ public class LibraryController {
 				System.exit(1);
 			library = new Library();
 		}
-	}
-
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-
-	public void setBookOverviewController(BookOverviewController bookOverviewController) {
-		this.bookOverviewController = bookOverviewController;
-	}
-
-	public void setBookOverviewRoot(Parent bookOverviewRoot) {
-		this.bookOverviewRoot = bookOverviewRoot;
 	}
 
 }

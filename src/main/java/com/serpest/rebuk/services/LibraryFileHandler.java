@@ -1,4 +1,4 @@
-package com.serpest.rebuk.controller;
+package com.serpest.rebuk.services;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.serpest.rebuk.model.Library;
 
-class LibraryFileHandler {
+public class LibraryFileHandler {
 
 	private Gson gson;
 

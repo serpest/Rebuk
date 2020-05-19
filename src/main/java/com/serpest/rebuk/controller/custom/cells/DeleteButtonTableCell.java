@@ -1,4 +1,4 @@
-package com.serpest.rebuk.controller.cells;
+package com.serpest.rebuk.controller.custom.cells;
 
 import java.util.function.BiConsumer;
 
