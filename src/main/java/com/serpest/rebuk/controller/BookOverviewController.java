@@ -59,7 +59,7 @@ public class BookOverviewController {
 		statusChoiceBox.getItems().setAll(Status.values());
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		pagesColumn.setCellValueFactory(new PropertyValueFactory<>("pages"));
-		dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+		dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDateTime"));
 		actionsColumn.setCellFactory(cell -> new DeleteButtonTableCell<Bookmark>(
 				(event, index) -> handleDeleteBookmarkAction(event, index)));
 	}
