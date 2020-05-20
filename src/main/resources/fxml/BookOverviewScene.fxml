@@ -46,14 +46,10 @@
 					<children>
 						<TableView fx:id="bookmarksTableView">
 							<columns>
-								<TableColumn fx:id="nameColumn" prefWidth="100.0"
-									text="Name" />
-								<TableColumn fx:id="pagesColumn" prefWidth="100.0"
-									text="Pages" />
-								<TableColumn fx:id="dateTimeColumn"
-									prefWidth="100.0" text="Date &amp; Time" />
-								<TableColumn fx:id="actionsColumn" prefWidth="100.0"
-									text="Actions" />
+								<TableColumn fx:id="nameColumn" text="Name" />
+								<TableColumn fx:id="pagesColumn" text="Pages" />
+								<TableColumn fx:id="dateTimeColumn" text="Date &amp; Time" />
+								<TableColumn fx:id="actionsColumn" text="Actions" />
 							</columns>
 							<columnResizePolicy>
 								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
