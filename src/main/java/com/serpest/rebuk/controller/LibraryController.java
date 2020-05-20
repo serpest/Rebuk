@@ -1,15 +1,16 @@
 package com.serpest.rebuk.controller;
 
 import com.google.gson.JsonSyntaxException;
-import com.serpest.rebuk.controller.custom.cells.OverviewOpenDeleteButtonsTableCell;
 import com.serpest.rebuk.model.Book;
 import com.serpest.rebuk.model.Library;
 import com.serpest.rebuk.services.LibraryFileHandler;
+import com.serpest.rebuk.services.OpenFileHandler;
+import com.serpest.rebuk.view.RebukAlert;
+import com.serpest.rebuk.view.cells.OverviewOpenDeleteButtonsTableCell;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -20,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Pair;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -92,7 +92,8 @@ public class LibraryController {
 			Book book = library.getRandomBook();
 			openBookOverview(book);
 		} catch (NoSuchFieldException exc) {
-			showAlert(AlertType.WARNING, "Library empty", "You can't get a random book because the library is empty.");
+			RebukAlert alert = new RebukAlert(AlertType.WARNING, "Library empty", "You can't get a random book because the library is empty.");
+			alert.showAndWait();
 		}
 	}
 
@@ -101,7 +102,8 @@ public class LibraryController {
 			new File(LIBRARY_FILENAME).getParentFile().mkdirs(); // Create parent directories if they don't exist
 			libraryFileHandler.writeJsonStream(new FileOutputStream(LIBRARY_FILENAME), library);
 		} catch (IOException exc) {
-			showAlert(AlertType.WARNING, "Library not saved", "Rebuk had a problem saving the library.");
+			RebukAlert alert = new RebukAlert(AlertType.WARNING, "Library not saved", "Rebuk had a problem saving the library.");
+			alert.showAndWait();
 		}
 	}
 
@@ -128,25 +130,15 @@ public class LibraryController {
 		File file = new File(book.getFilename());
 		if (file.exists()) {
 			try {
-				openFileWithDefaultApp(file);
+				OpenFileHandler.openFileWithDefaultApp(file);
 			} catch (IOException exc) {
-				showAlert(AlertType.WARNING, "File not opened", "Rebuk had a problem opening the file.");
+				RebukAlert alert = new RebukAlert(AlertType.WARNING, "File not opened", "Rebuk had a problem opening the file.");
+				alert.showAndWait();
 			}
 		} else {
-			showAlert(AlertType.WARNING, "File not opened", "The file doesn't exists.");
+			RebukAlert alert = new RebukAlert(AlertType.WARNING, "File not opened", "The file doesn't exists.");
+			alert.showAndWait();
 		}
-	}
-
-	private Optional<ButtonType> showAlert(AlertType alertType, String headerText, String contentText) {
-		Alert alert = new Alert(alertType);
-		alert.setTitle("Rebuk " + alertType.name().toLowerCase());
-		alert.setHeaderText(headerText);
-		alert.setContentText(contentText);
-		return alert.showAndWait();
-	}
-
-	private void openFileWithDefaultApp(File file) throws IOException {
-		Desktop.getDesktop().open(file);
 	}
 
 	private void handleDeleteBookAction(ActionEvent event, int elementIndex) {
@@ -166,8 +158,8 @@ public class LibraryController {
 		try {
 			library = libraryFileHandler.readJsonStream((new FileInputStream(LIBRARY_FILENAME)));
 		} catch (IOException | JsonSyntaxException exc) {
-			Optional<ButtonType> result = showAlert(AlertType.CONFIRMATION, "Library not loaded",
-					"Do you want to create a new library?");
+			RebukAlert alert = new RebukAlert(AlertType.CONFIRMATION, "Library not loaded", "Do you want to create a new library?");
+			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() != ButtonType.OK)
 				System.exit(1);
 			library = new Library();

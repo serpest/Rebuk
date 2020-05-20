@@ -24,7 +24,9 @@
 				<TableColumn fx:id="authorsColumn" text="Authors" />
 				<TableColumn fx:id="statusColumn" text="Status" />
 				<TableColumn fx:id="bookmarksColumn" text="Bookmarks" />
-				<TableColumn fx:id="actionsColumn" sortable="false" text="Actions" />
+				<TableColumn fx:id="actionsColumn" sortable="false"
+					text="Actions" minWidth="170" maxWidth="170" prefWidth="170"
+					resizable="false" />
 			</columns>
 			<columnResizePolicy>
 				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

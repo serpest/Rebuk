@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1"
+<VBox prefHeight="500.0" prefWidth="500.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.serpest.rebuk.controller.BookOverviewController">
 	<children>
 		<ToolBar>
 			<items>
 				<Button onAction="#handleSaveButtonAction" text="Save" />
+				<Button onAction="#handleOpenButtonAction" text="Open" />
 			</items>
 		</ToolBar>
-		<Separator orientation="VERTICAL" prefHeight="10.0" />
 		<GridPane hgap="10.0" vgap="10.0">
 			<children>
 				<Text text="Filename:" />
@@ -33,14 +34,16 @@
 				<ColumnConstraints />
 				<ColumnConstraints hgrow="ALWAYS" />
 			</columnConstraints>
+			<VBox.margin>
+				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+			</VBox.margin>
 		</GridPane>
-		<Separator orientation="VERTICAL" prefHeight="10.0" />
-		<TitledPane text="Notes">
+		<TitledPane text="Notes" VBox.vgrow="ALWAYS">
 			<content>
 				<TextArea fx:id="notesTextArea" />
 			</content>
 		</TitledPane>
-		<TitledPane text="Bookmarks">
+		<TitledPane text="Bookmarks" VBox.vgrow="ALWAYS">
 			<content>
 				<VBox spacing="10.0">
 					<children>
@@ -48,8 +51,10 @@
 							<columns>
 								<TableColumn fx:id="nameColumn" text="Name" />
 								<TableColumn fx:id="pagesColumn" text="Pages" />
-								<TableColumn fx:id="dateTimeColumn" text="Date &amp; Time" />
-								<TableColumn fx:id="actionsColumn" text="Actions" />
+								<TableColumn fx:id="dateTimeColumn"
+									text="Date &amp; Time" />
+								<TableColumn fx:id="actionsColumn" text="Actions"
+									minWidth="60" maxWidth="60" prefWidth="60" resizable="false" />
 							</columns>
 							<columnResizePolicy>
 								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

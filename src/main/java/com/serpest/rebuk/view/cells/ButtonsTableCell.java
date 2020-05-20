@@ -1,4 +1,4 @@
-package com.serpest.rebuk.controller.custom.cells;
+package com.serpest.rebuk.view.cells;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;

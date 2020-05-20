@@ -1,5 +1,6 @@
 package com.serpest.rebuk.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,10 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.serpest.rebuk.controller.custom.cells.DeleteButtonTableCell;
 import com.serpest.rebuk.model.Book;
 import com.serpest.rebuk.model.Book.Status;
 import com.serpest.rebuk.model.Bookmark;
+import com.serpest.rebuk.services.OpenFileHandler;
+import com.serpest.rebuk.view.RebukAlert;
+import com.serpest.rebuk.view.cells.DeleteButtonTableCell;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Pair;
 
@@ -74,6 +78,22 @@ public class BookOverviewController {
 		List<Bookmark> bookmarksWithoutListeners = new ArrayList<>(Arrays
 				.asList(bookmarksTableView.getItems().toArray(new Bookmark[bookmarksTableView.getItems().size()])));
 		book.setBookmarks(bookmarksWithoutListeners);
+	}
+
+	@FXML
+	public void handleOpenButtonAction(ActionEvent event) {
+		File file = new File(book.getFilename());
+		if (file.exists()) {
+			try {
+				OpenFileHandler.openFileWithDefaultApp(file);
+			} catch (IOException exc) {
+				RebukAlert alert = new RebukAlert(AlertType.WARNING, "File not opened", "Rebuk had a problem opening the file.");
+				alert.showAndWait();
+			}
+		} else {
+			RebukAlert alert = new RebukAlert(AlertType.WARNING, "File not opened", "The file doesn't exists.");
+			alert.showAndWait();
+		}
 	}
 
 	@FXML
