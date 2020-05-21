@@ -25,7 +25,7 @@
 				<TableColumn fx:id="statusColumn" text="Status" />
 				<TableColumn fx:id="bookmarksColumn" text="Bookmarks" />
 				<TableColumn fx:id="actionsColumn" sortable="false"
-					text="Actions" minWidth="170" maxWidth="170" prefWidth="170"
+					text="Actions" minWidth="167" maxWidth="167" prefWidth="167"
 					resizable="false" />
 			</columns>
 			<columnResizePolicy>

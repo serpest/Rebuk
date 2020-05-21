@@ -54,7 +54,7 @@
 								<TableColumn fx:id="dateTimeColumn"
 									text="Date &amp; Time" />
 								<TableColumn fx:id="actionsColumn" text="Actions"
-									minWidth="60" maxWidth="60" prefWidth="60" resizable="false" />
+									minWidth="93" maxWidth="93" prefWidth="93" resizable="false" />
 							</columns>
 							<columnResizePolicy>
 								<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

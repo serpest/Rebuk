@@ -32,6 +32,7 @@ public class Bookmark implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+		updateDateTimeNow();
 	}
 
 	public String getPages() {
@@ -40,6 +41,7 @@ public class Bookmark implements Serializable {
 
 	public void setPages(String pages) {
 		this.pages = pages;
+		updateDateTimeNow();
 	}
 
 	public LocalDateTime getDateTime() {
@@ -52,6 +54,10 @@ public class Bookmark implements Serializable {
 
 	public String getFormattedDateTime() {
 		return DATE_TIME_FORMATTER.format(dateTime);
+	}
+
+	private void updateDateTimeNow() {
+		dateTime = LocalDateTime.now();
 	}
 
 }

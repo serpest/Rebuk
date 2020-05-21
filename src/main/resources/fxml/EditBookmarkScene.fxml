@@ -7,7 +7,7 @@
 
 <GridPane hgap="10.0" vgap="10.0"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.serpest.rebuk.controller.AddBookmarkController">
+	fx:controller="com.serpest.rebuk.controller.EditBookmarkController">
 	<children>
 		<Text text="Name:" />
 		<Text text="Pages:" GridPane.rowIndex="1" />

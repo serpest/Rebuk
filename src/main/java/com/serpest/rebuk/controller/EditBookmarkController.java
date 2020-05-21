@@ -3,7 +3,7 @@ package com.serpest.rebuk.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class AddBookmarkController {
+public class EditBookmarkController {
 
 	@FXML
 	private TextField nameField;
@@ -15,6 +15,10 @@ public class AddBookmarkController {
 		return nameField.getText();
 	}
 
+	public void setNameFieldText(String text) {
+		nameField.setText(text);
+	}
+
 	public void clearNameField() {
 		nameField.clear();
 	}
@@ -23,7 +27,16 @@ public class AddBookmarkController {
 		return pagesField.getText();
 	}
 
+	public void setPagesFieldText(String text) {
+		pagesField.setText(text);
+	}
+
 	public void clearPagesField() {
+		pagesField.clear();
+	}
+
+	public void clearFields() {
+		nameField.clear();
 		pagesField.clear();
 	}
 

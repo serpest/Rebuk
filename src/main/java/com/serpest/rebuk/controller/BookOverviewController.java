@@ -13,7 +13,7 @@ import com.serpest.rebuk.model.Book.Status;
 import com.serpest.rebuk.model.Bookmark;
 import com.serpest.rebuk.services.OpenFileHandler;
 import com.serpest.rebuk.view.RebukAlert;
-import com.serpest.rebuk.view.cells.DeleteButtonTableCell;
+import com.serpest.rebuk.view.cells.EditDeleteButtonTableCell;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +31,8 @@ public class BookOverviewController {
 
 	private Book book;
 
-	private Dialog<Pair<String, String>> addBookmarkDialog;
+	private Dialog<Pair<String, String>> editBookmarkDialog;
+	private EditBookmarkController editBookmarkController;
 
 	@FXML
 	private TextField filenameField;
@@ -54,8 +55,9 @@ public class BookOverviewController {
 	@FXML
 	private TableColumn<Bookmark, Void> actionsColumn;
 
-	public BookOverviewController(Dialog<Pair<String, String>> addBookmarkDialog) {
-		this.addBookmarkDialog = addBookmarkDialog;
+	public BookOverviewController(Pair<Dialog<Pair<String, String>>, EditBookmarkController> editBookmarkView) {
+		this.editBookmarkDialog = editBookmarkView.getKey();
+		this.editBookmarkController = editBookmarkView.getValue();
 	}
 
 	@FXML
@@ -64,7 +66,8 @@ public class BookOverviewController {
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 		pagesColumn.setCellValueFactory(new PropertyValueFactory<>("pages"));
 		dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDateTime"));
-		actionsColumn.setCellFactory(cell -> new DeleteButtonTableCell<Bookmark>(
+		actionsColumn.setCellFactory(cell -> new EditDeleteButtonTableCell<Bookmark>(
+				(event, index) -> handleEditBookmarkAction(event, index),
 				(event, index) -> handleDeleteBookmarkAction(event, index)));
 	}
 
@@ -98,7 +101,9 @@ public class BookOverviewController {
 
 	@FXML
 	public void handleAddBookmarkButtonAction(ActionEvent event) {
-		Optional<Pair<String, String>> result = addBookmarkDialog.showAndWait();
+		editBookmarkController.clearFields();
+		editBookmarkDialog.setTitle("Add bookmark");
+		Optional<Pair<String, String>> result = editBookmarkDialog.showAndWait();
 		if (result.isPresent()) {
 			Bookmark bookmark = new Bookmark(result.get().getKey(), result.get().getValue());
 			book.addBookmark(bookmark);
@@ -136,6 +141,21 @@ public class BookOverviewController {
 	private void handleDeleteBookmarkAction(ActionEvent event, int elementIndex) {
 		book.getBookmarks().remove(elementIndex);
 		deleteTableViewBookmark(elementIndex);
+	}
+
+	private void handleEditBookmarkAction(ActionEvent event, int elementIndex) {
+		Bookmark bookmark = bookmarksTableView.getItems().get(elementIndex);
+		editBookmarkController.clearFields();
+		editBookmarkController.setNameFieldText(bookmark.getName());
+		editBookmarkController.setPagesFieldText(bookmark.getPages());
+		editBookmarkDialog.setTitle("Edit bookmark");
+		Optional<Pair<String, String>> result = editBookmarkDialog.showAndWait();
+		if (result.isPresent()) {
+			bookmark.setName(result.get().getKey());
+			bookmark.setPages(result.get().getValue());
+			book.addBookmark(bookmark);
+			addBookmarkToTableView(bookmark);
+		}
 	}
 
 }
