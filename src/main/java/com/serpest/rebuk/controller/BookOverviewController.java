@@ -153,8 +153,7 @@ public class BookOverviewController {
 		if (result.isPresent()) {
 			bookmark.setName(result.get().getKey());
 			bookmark.setPages(result.get().getValue());
-			book.addBookmark(bookmark);
-			addBookmarkToTableView(bookmark);
+			updateBookmarksTableView();
 		}
 	}
 
