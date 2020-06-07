@@ -130,7 +130,7 @@ public class LibraryController {
 		File file = new File(book.getFilename());
 		if (file.exists()) {
 			try {
-				OpenFileHandler.openFileWithDefaultApp(file);
+				OpenFileHandler.openFile(file);
 			} catch (IOException exc) {
 				RebukAlert alert = new RebukAlert(AlertType.WARNING, "File not opened", "Rebuk had a problem opening the file.");
 				alert.showAndWait();
