@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,7 +26,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LibraryController {
 
@@ -36,6 +41,9 @@ public class LibraryController {
 
 	private Stage bookOverviewStage;
 	private BookOverviewController bookOverviewController;
+
+	@FXML
+	private TextField searchField;
 
 	@FXML
 	private TableView<Book> booksTableView;
@@ -97,6 +105,11 @@ public class LibraryController {
 		}
 	}
 
+	@FXML
+	public void handleSearchFieldAction(ActionEvent event) {
+		updateBooksTableView();
+	}
+
 	void saveLibrary() {
 		try {
 			new File(LIBRARY_FILENAME).getParentFile().mkdirs(); // Create parent directories if they don't exist
@@ -107,9 +120,24 @@ public class LibraryController {
 		}
 	}
 
-	void updateBooksTableView() {
+	private void updateBooksTableView() {
 		booksTableView.getItems().clear();
-		booksTableView.getItems().addAll(library.getBooks());
+		Collection<Book> books = library.getBooks();
+		if (!searchField.getText().isBlank())
+			books = books.parallelStream().filter(this::filterSearchedBooks).collect(Collectors.toList());
+		booksTableView.getItems().addAll(books);
+	}
+
+	/**
+	 * Checks if the searched text written in <code>searchField</code> is a substring of book filename, authors or title.
+	 *
+	 * @param book the book to inspect
+	 * @return true if book is searched
+	 */
+	private boolean filterSearchedBooks(Book book) {
+		String searchedText = searchField.getText().toLowerCase();
+		String[] bookInfos = new String[] {book.getFilename(), book.getAuthors(), book.getTitle()};
+		return Arrays.stream(bookInfos).filter(Objects::nonNull).map(String::toLowerCase).anyMatch(bookInfo -> bookInfo.contains(searchedText));
 	}
 
 	private void addBookToTableView(Book book) {

@@ -12,9 +12,12 @@
 		<ToolBar>
 			<items>
 				<Button onAction="#handleAddBookButtonAction" text="Add book" />
-				<Separator />
+				<Separator visible="false" />
 				<Button onAction="#handleRandomBookOverviewButtonAction"
 					text="Random book overview" />
+				<Separator visible="false" />
+				<TextField fx:id="searchField" promptText="Search"
+					onAction="#handleSearchFieldAction" />
 			</items>
 		</ToolBar>
 		<TableView fx:id="booksTableView" VBox.vgrow="ALWAYS">
