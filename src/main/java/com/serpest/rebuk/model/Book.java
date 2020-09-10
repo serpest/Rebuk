@@ -1,8 +1,11 @@
 package com.serpest.rebuk.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.serpest.rebuk.controller.MainAppController;
 
 public class Book implements Serializable, Comparable<Book> {
 
@@ -37,6 +40,8 @@ public class Book implements Serializable, Comparable<Book> {
 
 	private Status status;
 
+	private LocalDateTime lastChangeDateTime;
+
 	public Book(String filename) {
 		this(filename, null, null);
 	}
@@ -47,6 +52,7 @@ public class Book implements Serializable, Comparable<Book> {
 		this.authors = authors;
 		status = Status.NEW;
 		bookmarks = new ArrayList<>();
+		updateLastChangeDateTimeNow();
 	}
 
 	public String getTitle() {
@@ -55,6 +61,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setTitle(String title) {
 		this.title = title;
+		updateLastChangeDateTimeNow();
 	}
 
 	public String getAuthors() {
@@ -63,6 +70,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setAuthors(String authors) {
 		this.authors = authors;
+		updateLastChangeDateTimeNow();
 	}
 
 	public String getFilename() {
@@ -71,6 +79,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
+		updateLastChangeDateTimeNow();
 	}
 
 	public String getNotes() {
@@ -79,6 +88,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+		updateLastChangeDateTimeNow();
 	}
 
 	public List<Bookmark> getBookmarks() {
@@ -87,6 +97,7 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setBookmarks(List<Bookmark> bookmarks) {
 		this.bookmarks = bookmarks;
+		updateLastChangeDateTimeNow();
 	}
 
 	public Status getStatus() {
@@ -95,14 +106,22 @@ public class Book implements Serializable, Comparable<Book> {
 
 	public void setStatus(Status status) {
 		this.status = status;
+		updateLastChangeDateTimeNow();
 	}
 
 	public void addBookmark(Bookmark bookmark) {
 		bookmarks.add(bookmark);
+		updateLastChangeDateTimeNow();
 	}
 
 	public int getBookmarksNumber() {
 		return bookmarks.size();
+	}
+
+	public String getLastChangeDateTime() {
+		if (lastChangeDateTime == null)
+			return "";
+		return MainAppController.DATE_TIME_FORMATTER.format(lastChangeDateTime);
 	}
 
 	@Override
@@ -113,4 +132,7 @@ public class Book implements Serializable, Comparable<Book> {
 			return getFilename().compareTo(other.getFilename());
 	}
 
+	private void updateLastChangeDateTimeNow() {
+		lastChangeDateTime = LocalDateTime.now();
+	}
 }

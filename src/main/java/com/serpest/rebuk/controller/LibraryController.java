@@ -56,6 +56,8 @@ public class LibraryController {
 	@FXML
 	private TableColumn<Book, Book.Status> statusColumn;
 	@FXML
+	private TableColumn<Book, String> lastChangeDateTimeColumn;
+	@FXML
 	private TableColumn<Book, Boolean> bookmarksColumn;
 	@FXML
 	private TableColumn<Book, Void> actionsColumn;
@@ -73,6 +75,7 @@ public class LibraryController {
 		titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
 		authorsColumn.setCellValueFactory(new PropertyValueFactory<>("authors"));
 		statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+		lastChangeDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("lastChangeDateTime"));
 		bookmarksColumn.setCellValueFactory(new PropertyValueFactory<>("bookmarksNumber"));
 		actionsColumn.setCellFactory(cell -> new OverviewOpenDeleteButtonsTableCell<>(
 				(event, index) -> handleGetOverviewBookAction(event, index),

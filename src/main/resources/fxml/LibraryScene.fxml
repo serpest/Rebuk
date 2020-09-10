@@ -26,6 +26,7 @@
 				<TableColumn fx:id="titleColumn" text="Title" />
 				<TableColumn fx:id="authorsColumn" text="Authors" />
 				<TableColumn fx:id="statusColumn" text="Status" />
+				<TableColumn fx:id="lastChangeDateTimeColumn" text="Date modified" />
 				<TableColumn fx:id="bookmarksColumn" text="Bookmarks" />
 				<TableColumn fx:id="actionsColumn" sortable="false"
 					text="Actions" minWidth="167" maxWidth="167" prefWidth="167"

@@ -22,6 +22,7 @@
 				<Text text="Title:" GridPane.rowIndex="1" />
 				<Text text="Authors:" GridPane.rowIndex="2" />
 				<Text text="Status:" GridPane.rowIndex="3" />
+				<Text text="Date modified:" GridPane.rowIndex="4" />
 				<TextField fx:id="filenameField" GridPane.columnIndex="1" />
 				<TextField fx:id="titleField" GridPane.columnIndex="1"
 					GridPane.rowIndex="1" />
@@ -29,6 +30,8 @@
 					GridPane.rowIndex="2" />
 				<ChoiceBox fx:id="statusChoiceBox"
 					GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<TextField fx:id="lastChangeDateTimeField" GridPane.columnIndex="1"
+					GridPane.rowIndex="4" editable="false" />
 			</children>
 			<columnConstraints>
 				<ColumnConstraints />
@@ -52,7 +55,7 @@
 								<TableColumn fx:id="nameColumn" text="Name" />
 								<TableColumn fx:id="pagesColumn" text="Pages" />
 								<TableColumn fx:id="dateTimeColumn"
-									text="Date &amp; Time" />
+									text="Date modified" />
 								<TableColumn fx:id="actionsColumn" text="Actions"
 									minWidth="93" maxWidth="93" prefWidth="93" resizable="false" />
 							</columns>

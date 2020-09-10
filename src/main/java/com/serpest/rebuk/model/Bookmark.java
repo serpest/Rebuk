@@ -2,11 +2,10 @@ package com.serpest.rebuk.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import com.serpest.rebuk.controller.MainAppController;
 
 public class Bookmark implements Serializable {
-
-	private final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy HH:mm");
 
 	private static final long serialVersionUID = -1121879802231194293L;
 
@@ -53,7 +52,9 @@ public class Bookmark implements Serializable {
 	}
 
 	public String getFormattedDateTime() {
-		return DATE_TIME_FORMATTER.format(dateTime);
+		if (dateTime == null)
+			return "";
+		return MainAppController.DATE_TIME_FORMATTER.format(dateTime);
 	}
 
 	private void updateDateTimeNow() {

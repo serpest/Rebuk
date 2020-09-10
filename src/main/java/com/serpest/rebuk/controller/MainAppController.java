@@ -1,5 +1,7 @@
 package com.serpest.rebuk.controller;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -7,6 +9,8 @@ import javafx.stage.Stage;
 public class MainAppController {
 
 	public final static Image APP_ICON = new Image(MainAppController.class.getResource("/img/icon.png").toString());
+
+	public final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy HH:mm");
 
 	Stage primaryStage;
 

@@ -2,7 +2,6 @@ package com.serpest.rebuk.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +42,8 @@ public class BookOverviewController {
 	@FXML
 	private ChoiceBox<Book.Status> statusChoiceBox;
 	@FXML
+	private TextField lastChangeDateTimeField;
+	@FXML
 	private TextArea notesTextArea;
 	@FXML
 	private TableView<Bookmark> bookmarksTableView;
@@ -51,7 +52,7 @@ public class BookOverviewController {
 	@FXML
 	private TableColumn<Bookmark, String> pagesColumn;
 	@FXML
-	private TableColumn<Bookmark, LocalDateTime> dateTimeColumn;
+	private TableColumn<Bookmark, String> dateTimeColumn;
 	@FXML
 	private TableColumn<Bookmark, Void> actionsColumn;
 
@@ -81,6 +82,7 @@ public class BookOverviewController {
 		List<Bookmark> bookmarksWithoutListeners = new ArrayList<>(Arrays
 				.asList(bookmarksTableView.getItems().toArray(new Bookmark[bookmarksTableView.getItems().size()])));
 		book.setBookmarks(bookmarksWithoutListeners);
+		updateLastChangeDateTime();
 	}
 
 	@FXML
@@ -122,7 +124,12 @@ public class BookOverviewController {
 		authorsField.setText(book.getAuthors());
 		statusChoiceBox.setValue(book.getStatus());
 		notesTextArea.setText(book.getNotes());
+		updateLastChangeDateTime();
 		updateBookmarksTableView();
+	}
+
+	private void updateLastChangeDateTime() {
+		lastChangeDateTimeField.setText(book.getLastChangeDateTime());
 	}
 
 	private void updateBookmarksTableView() {
