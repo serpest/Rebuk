@@ -160,6 +160,8 @@ public class BookOverviewController {
 		if (result.isPresent()) {
 			bookmark.setName(result.get().getKey());
 			bookmark.setPages(result.get().getValue());
+			book.updateLastChangeDateTimeNow();
+			updateLastChangeDateTime();
 			updateBookmarksTableView();
 		}
 	}

@@ -132,7 +132,7 @@ public class Book implements Serializable, Comparable<Book> {
 			return getFilename().compareTo(other.getFilename());
 	}
 
-	private void updateLastChangeDateTimeNow() {
+	public void updateLastChangeDateTimeNow() {
 		lastChangeDateTime = LocalDateTime.now();
 	}
 }
