@@ -6,15 +6,11 @@
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.serpest.rebuk.controller.LibraryController">
+	xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<ToolBar>
 			<items>
 				<Button onAction="#handleAddBookButtonAction" text="Add book" />
-				<Separator visible="false" />
-				<Button onAction="#handleRandomBookOverviewButtonAction"
-					text="Random book overview" />
 				<Separator visible="false" />
 				<TextField fx:id="searchField" promptText="Search"
 					onAction="#handleSearchFieldAction" />
@@ -22,13 +18,13 @@
 		</ToolBar>
 		<TableView fx:id="booksTableView" VBox.vgrow="ALWAYS">
 			<columns>
-				<TableColumn fx:id="filenameColumn" text="Filename" />
-				<TableColumn fx:id="titleColumn" text="Title" />
-				<TableColumn fx:id="authorsColumn" text="Authors" />
-				<TableColumn fx:id="statusColumn" text="Status" />
-				<TableColumn fx:id="lastChangeDateTimeColumn" text="Date modified" />
-				<TableColumn fx:id="bookmarksColumn" text="Bookmarks" />
-				<TableColumn fx:id="actionsColumn" sortable="false"
+				<TableColumn fx:id="booksFilenameColumn" text="Filename" />
+				<TableColumn fx:id="booksTitleColumn" text="Title" />
+				<TableColumn fx:id="booksAuthorsColumn" text="Authors" />
+				<TableColumn fx:id="booksStatusColumn" text="Status" />
+				<TableColumn fx:id="booksLastModifiedDateTimeColumn" text="Date modified" />
+				<TableColumn fx:id="booksBookmarksSizeColumn" text="Bookmarks" />
+				<TableColumn fx:id="booksActionsColumn" sortable="false"
 					text="Actions" minWidth="167" maxWidth="167" prefWidth="167"
 					resizable="false" />
 			</columns>

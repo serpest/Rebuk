@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<bean id="customEditorConfigurer"
+		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.time.format.DateTimeFormatter"
+					value="com.serpest.rebuk.utils.spring.DateTimeFormatterEditor" />
+			</map>
+		</property>
+	</bean>
+	<bean id="propertyConfigurer"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="location">
+			<value>rebuk.properties</value>
+		</property>
+	</bean>
+	<bean id="openFileHandler"
+		class="com.serpest.rebuk.services.OpenFileHandler" scope="singleton">
+		<property name="customOpenFileCommand">
+			<value>${rebuk.customOpenFileCommand}</value>
+		</property>
+	</bean>
+	<bean id="importExportLibraryHandler"
+		class="com.serpest.rebuk.services.ImportExportLibraryHandler"
+		scope="singleton" init-method="init">
+		<property name="defaultLibraryPath">
+			<value>${rebuk.defaultLibraryPath}</value>
+		</property>
+	</bean>
+	<bean id="viewFactory"
+		class="com.serpest.rebuk.factory.ViewFactory" scope="singleton" />
+</beans>

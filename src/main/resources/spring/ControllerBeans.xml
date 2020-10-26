@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<bean id="editBookmarkController"
+		class="com.serpest.rebuk.controller.EditBookmarkController"
+		scope="singleton" />
+	<bean id="updateViewAdvice"
+		class="com.serpest.rebuk.controller.UpdateViewAdvice"
+		scope="singleton" />
+	<bean id="updateViewAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<set>
+				<value>handle*</value>
+				<value>set*</value>
+			</set>
+		</property>
+		<property name="advice">
+			<ref bean="updateViewAdvice" />
+		</property>
+	</bean>
+	<bean id="controllersMediator"
+		class="com.serpest.rebuk.controller.ControllersMediator"
+		scope="singleton">
+		<property name="bookOverviewController">
+			<ref bean="bookOverviewController" />
+		</property>
+		<property name="editBookmarkController">
+			<ref bean="editBookmarkController" />
+		</property>
+	</bean>
+	<bean id="bookOverviewControllerTarget"
+		class="com.serpest.rebuk.controller.BookOverviewControllerImpl"
+		scope="singleton">
+		<property name="libraryFactory">
+			<ref bean="libraryFactory" />
+		</property>
+		<property name="controllersMediator">
+			<ref bean="controllersMediator" />
+		</property>
+		<property name="openFileHandler">
+			<ref bean="openFileHandler" />
+		</property>
+	</bean>
+	<bean id="bookOverviewController"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.serpest.rebuk.controller.BookOverviewController</value>
+		</property>
+		<property name="interceptorNames">
+			<value>updateViewAdvisor</value>
+		</property>
+		<property name="targetName">
+			<value>bookOverviewControllerTarget</value>
+		</property>
+	</bean>
+	<bean id="libraryControllerTarget"
+		class="com.serpest.rebuk.controller.LibraryControllerImpl"
+		scope="singleton" init-method="importLibrary">
+		<property name="libraryFactory">
+			<ref bean="libraryFactory" />
+		</property>
+		<property name="controllersMediator">
+			<ref bean="controllersMediator" />
+		</property>
+		<property name="openFileHandler">
+			<ref bean="openFileHandler" />
+		</property>
+		<property name="importExportLibraryHandler">
+			<ref bean="importExportLibraryHandler" />
+		</property>
+	</bean>
+	<bean id="exportLibraryAdvice"
+		class="com.serpest.rebuk.controller.ExportLibraryAdvice"
+		scope="singleton" />
+	<bean id="exportLibraryAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<set>
+				<value>handleAddBookButtonAction</value>
+				<value>handleShowBookOverviewAction</value>
+				<value>handleDeleteBookAction</value>
+			</set>
+		</property>
+		<property name="advice">
+			<ref bean="exportLibraryAdvice" />
+		</property>
+	</bean>
+	<bean id="libraryController"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.serpest.rebuk.controller.LibraryController</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>exportLibraryAdvice</value>
+				<value>updateViewAdvisor</value>
+			</list>
+		</property>
+		<property name="targetName">
+			<value>libraryControllerTarget</value>
+		</property>
+	</bean>
+</beans>

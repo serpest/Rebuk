@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	<bean id="lastModifiedDateTimeAdvice"
+		class="com.serpest.rebuk.model.datetime.LastModifiedDateTimeAdvice"
+		scope="prototype" />
+	<bean id="lastModifiedDateTimeAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames">
+			<set>
+				<value>set*</value>
+				<value>add*</value>
+				<value>remove*</value>
+			</set>
+		</property>
+		<property name="advice">
+			<ref bean="lastModifiedDateTimeAdvice" />
+		</property>
+	</bean>
+	<bean id="bookTarget" class="com.serpest.rebuk.model.BookImpl"
+		scope="prototype" />
+	<bean id="book"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="singleton">
+			<value>false</value>
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.serpest.rebuk.model.Book</value>
+		</property>
+		<property name="interceptorNames">
+			<value>lastModifiedDateTimeAdvisor</value>
+		</property>
+		<property name="targetName">
+			<value>bookTarget</value>
+		</property>
+	</bean>
+	<bean id="bookmarkTarget"
+		class="com.serpest.rebuk.model.BookmarkImpl" scope="prototype" />
+	<bean id="bookmark"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="singleton">
+			<value>false</value>
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.serpest.rebuk.model.Bookmark</value>
+		</property>
+		<property name="interceptorNames">
+			<value>lastModifiedDateTimeAdvisor</value>
+		</property>
+		<property name="targetName">
+			<value>bookmarkTarget</value>
+		</property>
+	</bean>
+	<bean id="library"
+		class="com.serpest.rebuk.model.LibraryImpl" scope="singleton" />
+	<bean id="libraryFactory"
+		class="com.serpest.rebuk.model.LibraryFactory" scope="singleton" />
+</beans>

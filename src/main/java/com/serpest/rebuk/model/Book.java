@@ -1,138 +1,39 @@
 package com.serpest.rebuk.model;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
-import com.serpest.rebuk.controller.MainAppController;
+import com.serpest.rebuk.model.datetime.Datable;
 
-public class Book implements Serializable, Comparable<Book> {
+public interface Book extends Datable {
 
-	public static enum Status {
+	String getTitle();
 
-		NEW("New"), READING("Reading"), READ("Read");
+	void setTitle(String title);
 
-		private String value;
+	String getAuthors();
 
-		Status(String value) {
-			this.value = value;
-		}
+	void setAuthors(String authors);
 
-		@Override
-		public String toString() {
-			return value;
-		}
+	String getFilename();
 
-	}
+	void setFilename(String filename);
 
-	private static final long serialVersionUID = 7438614807193744301L;
+	String getNotes();
 
-	private String title;
+	void setNotes(String notes);
 
-	private String authors;
+	Set<Bookmark> getBookmarks();
 
-	private String filename;
+	void setBookmarks(Set<Bookmark> bookmarks);
 
-	private String notes;
+	BookStatus getStatus();
 
-	private List<Bookmark> bookmarks;
+	void setStatus(BookStatus status);
 
-	private Status status;
+	void addBookmark(Bookmark bookmark);
 
-	private LocalDateTime lastChangeDateTime;
+	void removeBookmark(Bookmark bookmark);
 
-	public Book(String filename) {
-		this(filename, null, null);
-	}
+	int getBookmarksSize();
 
-	public Book(String filename, String title, String authors) {
-		this.filename = filename;
-		this.title = title;
-		this.authors = authors;
-		status = Status.NEW;
-		bookmarks = new ArrayList<>();
-		updateLastChangeDateTimeNow();
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-		updateLastChangeDateTimeNow();
-	}
-
-	public String getAuthors() {
-		return authors;
-	}
-
-	public void setAuthors(String authors) {
-		this.authors = authors;
-		updateLastChangeDateTimeNow();
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename;
-		updateLastChangeDateTimeNow();
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-		updateLastChangeDateTimeNow();
-	}
-
-	public List<Bookmark> getBookmarks() {
-		return bookmarks;
-	}
-
-	public void setBookmarks(List<Bookmark> bookmarks) {
-		this.bookmarks = bookmarks;
-		updateLastChangeDateTimeNow();
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-		updateLastChangeDateTimeNow();
-	}
-
-	public void addBookmark(Bookmark bookmark) {
-		bookmarks.add(bookmark);
-		updateLastChangeDateTimeNow();
-	}
-
-	public int getBookmarksNumber() {
-		return bookmarks.size();
-	}
-
-	public String getLastChangeDateTime() {
-		if (lastChangeDateTime == null)
-			return "";
-		return MainAppController.DATE_TIME_FORMATTER.format(lastChangeDateTime);
-	}
-
-	@Override
-	public int compareTo(Book other) {
-		if (getTitle() != null && other.getTitle() != null)
-			return getTitle().compareTo(other.getTitle());
-		else
-			return getFilename().compareTo(other.getFilename());
-	}
-
-	public void updateLastChangeDateTimeNow() {
-		lastChangeDateTime = LocalDateTime.now();
-	}
 }

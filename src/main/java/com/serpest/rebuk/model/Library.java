@@ -1,51 +1,20 @@
 package com.serpest.rebuk.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
-public class Library implements Serializable, Iterable<Book> {
+public interface Library {
 
-	private static final long serialVersionUID = -7115762618036310656L;
+	Set<Book> getBooks();
 
-	private List<Book> books;
+	void setBooks(Set<Book> books);
 
-	public Library() {
-		books = new ArrayList<>();
-	}
+	void addBook(Book book);
 
-	public List<Book> getBooks() {
-		return books;
-	}
+	void removeBook(Book book);
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
-	}
+	int getBooksSize();
 
-	public void addBook(Book book) {
-		books.add(book);
-	}
-
-	public void removeBook(int index) {
-		books.remove(index);
-	}
-
-	public int getBooksNumber() {
-		return books.size();
-	}
-
-	public Book getRandomBook() throws NoSuchFieldException {
-		if (books.size() == 0)
-			throw new NoSuchFieldException();
-		Random random = new Random();
-		return books.get(random.nextInt(books.size()));
-	}
-
-	@Override
-	public Iterator<Book> iterator() {
-		return books.iterator();
-	}
+	Iterator<Book> iterator();
 
 }

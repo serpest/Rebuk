@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox prefHeight="500.0" prefWidth="500.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.serpest.rebuk.controller.BookOverviewController">
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<ToolBar>
 			<items>
@@ -28,9 +27,9 @@
 					GridPane.rowIndex="1" />
 				<TextField fx:id="authorsField" GridPane.columnIndex="1"
 					GridPane.rowIndex="2" />
-				<ChoiceBox fx:id="statusChoiceBox"
+				<ChoiceBox fx:id="bookStatusChoiceBox"
 					GridPane.columnIndex="1" GridPane.rowIndex="3" />
-				<TextField fx:id="lastChangeDateTimeField" GridPane.columnIndex="1"
+				<TextField fx:id="lastModifiedDateTimeField" GridPane.columnIndex="1"
 					GridPane.rowIndex="4" editable="false" />
 			</children>
 			<columnConstraints>
@@ -52,11 +51,11 @@
 					<children>
 						<TableView fx:id="bookmarksTableView">
 							<columns>
-								<TableColumn fx:id="nameColumn" text="Name" />
-								<TableColumn fx:id="pagesColumn" text="Pages" />
-								<TableColumn fx:id="dateTimeColumn"
+								<TableColumn fx:id="bookmarksNameColumn" text="Name" />
+								<TableColumn fx:id="bookmarksPagesColumn" text="Pages" />
+								<TableColumn fx:id="bookmarksLastModifiedDateTimeColumn"
 									text="Date modified" />
-								<TableColumn fx:id="actionsColumn" text="Actions"
+								<TableColumn fx:id="bookmarksActionsColumn" text="Actions"
 									minWidth="93" maxWidth="93" prefWidth="93" resizable="false" />
 							</columns>
 							<columnResizePolicy>

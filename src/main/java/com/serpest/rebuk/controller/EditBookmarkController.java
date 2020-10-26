@@ -36,8 +36,8 @@ public class EditBookmarkController {
 	}
 
 	public void clearFields() {
-		nameField.clear();
-		pagesField.clear();
+		clearNameField();
+		clearPagesField();
 	}
 
 }
