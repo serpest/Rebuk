@@ -31,7 +31,7 @@ public class ImportExportLibraryHandler implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
 
-	public void init() {
+	public ImportExportLibraryHandler() {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Library.class, new InstanceCreator<Library>() {
 			@Override

@@ -106,6 +106,9 @@ import com.sun.javafx.reflect.ReflectUtil;
  * This implementation is based on FXMLLoader with little changes.
  * Inheritance was't used because in Java you cannot override private methods and classes.
  * This class is only intended to solve a compatibility issue (see more in the class documentation comment) and doesn't follow the OOP principles.
+ * I've already reported this enhancement request as you can see at https://bugs.java.com/bugdatabase/view_bug.do?bug_id=JDK-8255581
+ *
+ * TODO: Delete this class when JDK-8255581 will be implemented.
  */
 
 /**
@@ -2136,13 +2139,14 @@ public class ControllerProxyFXMLLoader {
 			}
 		});
 
-		/*
-		 * TODO FXMLLoaderHelper.setFXMLLoaderAccessor(new
-		 * FXMLLoaderHelper.FXMLLoaderAccessor() {
-		 * 
-		 * @Override public void setStaticLoad(FXMLLoader fxmlLoader, boolean
-		 * staticLoad) { fxmlLoader.setStaticLoad(staticLoad); } });
-		 */
+		/* TODO
+		FXMLLoaderHelper.setFXMLLoaderAccessor(new FXMLLoaderHelper.FXMLLoaderAccessor() {
+			@Override
+			public void setStaticLoad(FXMLLoader fxmlLoader, boolean staticLoad) {
+				fxmlLoader.setStaticLoad(staticLoad);
+			}
+		});
+		*/
 	}
 
 	/**

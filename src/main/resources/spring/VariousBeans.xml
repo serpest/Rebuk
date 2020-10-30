@@ -25,7 +25,7 @@
 	</bean>
 	<bean id="importExportLibraryHandler"
 		class="com.serpest.rebuk.services.ImportExportLibraryHandler"
-		scope="singleton" init-method="init">
+		scope="singleton">
 		<property name="defaultLibraryPath">
 			<value>${rebuk.defaultLibraryPath}</value>
 		</property>
